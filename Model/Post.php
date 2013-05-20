@@ -48,10 +48,16 @@ class Post extends AppModel {
 	}
 
 	protected function _processImageUpload() {
-		$this->data['Image']['foreign_key'] = $this->data[$this->alias][$this->primaryKey];
-		$this->data['Image']['model'] = $this->name;
+		$data['Image']['foreign_key'] = $this->data[$this->alias][$this->primaryKey];
+		$data['Image']['model'] = $this->name;
+		$data['Image']['file'] = $this->data['Image']['file'];
 		$this->Image->create();
-		$result = $this->Image->save($this->data);
+		$result = $this->Image->save($data);
+		if ($result) {
+			return $this->Image->id;
+		} else {
+			return false;
+		}
 	}
 
 /**
@@ -68,7 +74,10 @@ class Post extends AppModel {
 			if ($result !== false) {
 				$this->data = array_merge($data, $result);
 				$this->data[$this->alias][$this->primaryKey] = $this->id;
-				$this->_processImageUpload();
+				$imageId = $this->_processImageUpload();
+				if (!empty($imageId)) {
+					$this->saveField('image_id', $this->Image->id);
+				}
 				return true;
 			} else {
 				throw new OutOfBoundsException(__('Could not save the post, please check your inputs.', true));
@@ -102,6 +111,13 @@ class Post extends AppModel {
 			$result = $this->save(null, true);
 			if ($result) {
 				$this->data = $result;
+				$imageId = $this->_processImageUpload();
+				if (!empty($imageId)) {
+					$this->saveField('image_id', $imageId);
+					if (!empty($post[$this->name]['image_id'])) {
+						$this->Image->delete($post[$this->name]['image_id']);
+					}
+				}
 				return true;
 			} else {
 				return $data;

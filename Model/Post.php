@@ -48,18 +48,12 @@ class Post extends AppModel {
 	}
 
 	protected function _processImageUpload() {
-		$model = 'Image';
-		$fieldName = 'file';
-		$fieldValue = $this->data[$model][$fieldName];
-		$key = 'your-file-name';
-		if (StorageManager::adapter('Local')->write($key, file_get_contents($fieldValue['tmp_name']))) {
-			$this->data[$model]['foreign_key'] = $this->id;
-			$this->data[$model]['model'] = $this->name;
-			$this->data[$model]['path'] = $key;
-			$this->data[$model]['adapter'] = 'Local';
-		}	
+		$this->data['Image']['foreign_key'] = $this->data[$this->alias][$this->primaryKey];
+		$this->data['Image']['model'] = $this->name;
+		$this->Image->create();
+		$result = $this->Image->save($this->data);
 	}
-	
+
 /**
  * Adds a new record to the database
  *
@@ -73,6 +67,7 @@ class Post extends AppModel {
 			$result = $this->save($data);
 			if ($result !== false) {
 				$this->data = array_merge($data, $result);
+				$this->data[$this->alias][$this->primaryKey] = $this->getLastInsertId();
 				$this->_processImageUpload();
 				return true;
 			} else {

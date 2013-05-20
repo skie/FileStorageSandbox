@@ -50,7 +50,7 @@ StorageManager::config('S3', array(
 Configure::write('Media', array(
 	'basePath' => APP . 'FileStorage' . DS,
 	'imageSizes' => array(
-		'Image' => array(
+		'Post' => array(
 			'c940' => array(
 				'crop' => array(
 					'width' => 940, 'height' => 200)),

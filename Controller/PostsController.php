@@ -52,7 +52,7 @@ class PostsController extends AppController {
  */
 	public function add() {
 		try {
-		debug($this->request->data);
+			//debug($this->request->data);
 			$result = $this->Post->add($this->request->data);
 			if ($result === true) {
 				$this->Session->setFlash(__('The post has been saved', true));

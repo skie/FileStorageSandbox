@@ -47,17 +47,29 @@ class Post extends AppModel {
 		);
 	}
 
-	protected function _processImageUpload() {
-		$model = 'Image';
-		$fieldName = 'file';
-		$fieldValue = $this->data[$model][$fieldName];
-		$key = 'your-file-name';
-		if (StorageManager::adapter('Local')->write($key, file_get_contents($fieldValue['tmp_name']))) {
-			$this->data[$model]['foreign_key'] = $this->id;
-			$this->data[$model]['model'] = $this->name;
-			$this->data[$model]['path'] = $key;
-			$this->data[$model]['adapter'] = 'Local';
-		}	
+	protected function _processImageUpload($id) {
+		$this->Image->create();
+		$data['Image']['user_id'] = 'no-user';
+		$data['Image']['adapter'] = 'Local';
+		$data['Image']['model'] = $this->name;
+		$data['Image']['foreign_key'] = $id;
+		$result = $this->Image->save($data);
+		if ($result) {
+			$result[$this->alias][$this->primaryKey] = $this->id;
+		}
+		return $result;
+	
+	
+		// $model = 'Image';
+		// $fieldName = 'file';
+		// $fieldValue = $this->data[$model][$fieldName];
+		// $key = 'your-file-name';
+		// if (StorageManager::adapter('Local')->write($key, file_get_contents($fieldValue['tmp_name']))) {
+			// $this->data[$model]['foreign_key'] = $this->id;
+			// $this->data[$model]['model'] = $this->name;
+			// $this->data[$model]['path'] = $key;
+			// $this->data[$model]['adapter'] = 'Local';
+		// }	
 	}
 	
 /**
@@ -73,7 +85,7 @@ class Post extends AppModel {
 			$result = $this->save($data);
 			if ($result !== false) {
 				$this->data = array_merge($data, $result);
-				$this->_processImageUpload();
+				$this->_processImageUpload($this->id);
 				return true;
 			} else {
 				throw new OutOfBoundsException(__('Could not save the post, please check your inputs.', true));

@@ -5,7 +5,7 @@
 	<?php
 		echo $this->Form->input('id');
 		echo $this->Form->input('name');
-		echo $this->Form->input('Image.file', array('type' => 'file'));
+		echo $this->Form->input('image_id', array('type' => 'file'));
 	?>
 	</fieldset>
 <?php echo $this->Form->end('Submit');?>

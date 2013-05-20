@@ -107,3 +107,10 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+
+
+CakePlugin::loadAll(); 
+CakePlugin::load('FileStorage', array('bootstrap' => true));
+CakePlugin::load('Imagine', array('bootstrap' => true));
+
+require_once APP . '/Config/storage.php'; 

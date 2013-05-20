@@ -121,7 +121,7 @@
  *	`manager_index()` and `/manager/controller/index`
  *
  */
-	//Configure::write('Routing.prefixes', array('admin'));
+	Configure::write('Routing.prefixes', array('admin'));
 
 /**
  * Turn off all caching application-wide.
@@ -172,7 +172,7 @@
  *    value to false, when dealing with older versions of IE, Chrome Frame or certain web-browsing devices and AJAX
  * - `Session.defaults` - The default configuration set to use as a basis for your session.
  *    There are four builtins: php, cake, cache, database.
- * - `Session.handler` - Can be used to enable a custom session handler. Expects an array of of callables,
+ * - `Session.handler` - Can be used to enable a custom session handler. Expects an array of callables,
  *    that can be used with `session_save_handler`. Using this option will automatically add `session.save_handler`
  *    to the ini array.
  * - `Session.autoRegenerate` - Enabling this setting, turns on automatic renewal of sessions, and
@@ -200,12 +200,12 @@
 /**
  * A random string used in security hashing methods.
  */
-	Configure::write('Security.salt', 'DYhG93b0qyJfIxfs2guVoUubWwvniR2G0FgaC9mi');
+	Configure::write('Security.salt', '1DYhG93b0qyJfIxfs2guVoUubWwvniR2G0FgaC9mi');
 
 /**
  * A random numeric string (digits only) used to encrypt/decrypt strings.
  */
-	Configure::write('Security.cipherSeed', '76859309657453542496749683645');
+	Configure::write('Security.cipherSeed', '276859309657453542496749683645');
 
 /**
  * Apply timestamps with the last modified time to static assets (js, css, images).

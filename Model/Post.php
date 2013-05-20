@@ -67,7 +67,7 @@ class Post extends AppModel {
 			$result = $this->save($data);
 			if ($result !== false) {
 				$this->data = array_merge($data, $result);
-				$this->data[$this->alias][$this->primaryKey] = $this->getLastInsertId();
+				$this->data[$this->alias][$this->primaryKey] = $this->id;
 				$this->_processImageUpload();
 				return true;
 			} else {
